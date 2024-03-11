@@ -10,7 +10,7 @@ import (
 	"github.com/dolfly/core/limiter/conn"
 	"github.com/dolfly/core/limiter/traffic"
 	"github.com/dolfly/core/logger"
-	//"github.com/dolfly/x/stats"
+	"github.com/dolfly/x/stats"
 )
 
 type Options struct {
@@ -22,10 +22,10 @@ type Options struct {
 	TrafficLimiter traffic.TrafficLimiter
 	ConnLimiter    conn.ConnLimiter
 	Chain          chain.Chainer
-	//Stats          *stats.Stats
-	Logger        logger.Logger
-	Service       string
-	ProxyProtocol int
+	Stats          *stats.Stats
+	Logger         logger.Logger
+	Service        string
+	ProxyProtocol  int
 }
 
 type Option func(opts *Options)
@@ -78,11 +78,11 @@ func ChainOption(chain chain.Chainer) Option {
 	}
 }
 
-// func StatsOption(stats *stats.Stats) Option {
-// 	return func(opts *Options) {
-// 		opts.Stats = stats
-// 	}
-// }
+func StatsOption(stats *stats.Stats) Option {
+	return func(opts *Options) {
+		opts.Stats = stats
+	}
+}
 
 func LoggerOption(logger logger.Logger) Option {
 	return func(opts *Options) {
