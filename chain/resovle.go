@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/go-gost/core/hosts"
-	"github.com/go-gost/core/logger"
-	"github.com/go-gost/core/resolver"
+	"github.com/dolfly/core/hosts"
+	"github.com/dolfly/core/logger"
+	"github.com/dolfly/core/resolver"
 )
 
 func Resolve(ctx context.Context, network, addr string, r resolver.Resolver, hosts hosts.HostMapper, log logger.Logger) (string, error) {

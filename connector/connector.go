@@ -4,7 +4,7 @@ import (
 	"context"
 	"net"
 
-	"github.com/go-gost/core/metadata"
+	"github.com/dolfly/core/metadata"
 )
 
 // Connector is responsible for connecting to the destination address.

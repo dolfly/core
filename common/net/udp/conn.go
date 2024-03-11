@@ -6,7 +6,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/go-gost/core/common/bufpool"
+	"github.com/dolfly/core/common/bufpool"
 )
 
 // conn is a server side connection for UDP client peer, it implements net.Conn and net.PacketConn.
