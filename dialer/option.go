@@ -4,8 +4,8 @@ import (
 	"crypto/tls"
 	"net/url"
 
-	xnet "github.com/go-gost/core/common/net"
-	"github.com/go-gost/core/logger"
+	xnet "github.com/dolfly/core/common/net"
+	"github.com/dolfly/core/logger"
 )
 
 type Options struct {

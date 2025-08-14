@@ -5,10 +5,10 @@ import (
 	"net"
 	"time"
 
-	"github.com/go-gost/core/hosts"
-	"github.com/go-gost/core/logger"
-	"github.com/go-gost/core/recorder"
-	"github.com/go-gost/core/resolver"
+	"github.com/dolfly/core/hosts"
+	"github.com/dolfly/core/logger"
+	"github.com/dolfly/core/recorder"
+	"github.com/dolfly/core/resolver"
 )
 
 type SockOpts struct {

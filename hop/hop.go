@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/go-gost/core/chain"
+	"github.com/dolfly/core/chain"
 )
 
 type SelectOptions struct {

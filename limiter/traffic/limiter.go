@@ -3,7 +3,7 @@ package traffic
 import (
 	"context"
 
-	"github.com/go-gost/core/limiter"
+	"github.com/dolfly/core/limiter"
 )
 
 type Limiter interface {

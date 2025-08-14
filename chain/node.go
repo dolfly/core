@@ -3,13 +3,13 @@ package chain
 import (
 	"regexp"
 
-	"github.com/go-gost/core/auth"
-	"github.com/go-gost/core/bypass"
-	"github.com/go-gost/core/hosts"
-	"github.com/go-gost/core/metadata"
-	"github.com/go-gost/core/resolver"
-	"github.com/go-gost/core/routing"
-	"github.com/go-gost/core/selector"
+	"github.com/dolfly/core/auth"
+	"github.com/dolfly/core/bypass"
+	"github.com/dolfly/core/hosts"
+	"github.com/dolfly/core/metadata"
+	"github.com/dolfly/core/resolver"
+	"github.com/dolfly/core/routing"
+	"github.com/dolfly/core/selector"
 )
 
 type NodeFilterSettings struct {

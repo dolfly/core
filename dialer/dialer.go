@@ -4,7 +4,7 @@ import (
 	"context"
 	"net"
 
-	"github.com/go-gost/core/metadata"
+	"github.com/dolfly/core/metadata"
 )
 
 // Transporter is responsible for dialing to the proxy server.

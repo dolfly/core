@@ -4,13 +4,13 @@ import (
 	"crypto/tls"
 	"net/url"
 
-	"github.com/go-gost/core/admission"
-	"github.com/go-gost/core/auth"
-	"github.com/go-gost/core/chain"
-	"github.com/go-gost/core/limiter/conn"
-	"github.com/go-gost/core/limiter/traffic"
-	"github.com/go-gost/core/logger"
-	"github.com/go-gost/core/observer/stats"
+	"github.com/dolfly/core/admission"
+	"github.com/dolfly/core/auth"
+	"github.com/dolfly/core/chain"
+	"github.com/dolfly/core/limiter/conn"
+	"github.com/dolfly/core/limiter/traffic"
+	"github.com/dolfly/core/logger"
+	"github.com/dolfly/core/observer/stats"
 )
 
 type Options struct {

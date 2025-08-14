@@ -1,4 +1,4 @@
-module github.com/go-gost/core
+module github.com/dolfly/core
 
 go 1.22
 

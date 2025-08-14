@@ -4,8 +4,8 @@ import (
 	"context"
 	"net"
 
-	"github.com/go-gost/core/hop"
-	"github.com/go-gost/core/metadata"
+	"github.com/dolfly/core/hop"
+	"github.com/dolfly/core/metadata"
 )
 
 type Handler interface {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"net"
 
-	"github.com/go-gost/core/connector"
+	"github.com/dolfly/core/connector"
 )
 
 type TransportOptions struct {
