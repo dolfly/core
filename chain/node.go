@@ -33,6 +33,24 @@ type HTTPURLRewriteSetting struct {
 	Replacement string
 }
 
+// FailCodes defines HTTP response status codes that mark a node as failed.
+// The response is still relayed to the client as-is; marking only affects
+// subsequent node selection (via the selector's FailFilter).
+// Codes < 100 are wildcard hundred-level prefixes (e.g. 5 → 5xx).
+type FailCodes []int
+
+// Match reports whether statusCode matches any configured code.
+// Exact codes are compared directly; codes < 100 match hundred-level
+// groups (e.g. code 5 matches 500-599).
+func (fc FailCodes) Match(statusCode int) bool {
+	for _, code := range fc {
+		if (code < 100 && statusCode/100 == code) || statusCode == code {
+			return true
+		}
+	}
+	return false
+}
+
 // HTTPBodyRewriteSettings defines an HTTP body rewrite rule.
 type HTTPBodyRewriteSettings struct {
 	// Type is the MIME type to match, e.g. "text/html".
@@ -62,10 +80,12 @@ type HTTPNodeSettings struct {
 	Auther auth.Authenticator
 	// RewriteURL holds the URL rewrite rules.
 	RewriteURL []HTTPURLRewriteSetting
-	// RewriteResponseBody holds the response body rewrite rules.
-	RewriteResponseBody []HTTPBodyRewriteSettings
 	// RewriteRequestBody holds the request body rewrite rules.
 	RewriteRequestBody []HTTPBodyRewriteSettings
+	// RewriteResponseBody holds the response body rewrite rules.
+	RewriteResponseBody []HTTPBodyRewriteSettings
+	// FailCodes lists response status codes that mark the node as failed.
+	FailCodes FailCodes
 }
 
 // TLSNodeSettings holds TLS configuration for a node.
@@ -198,7 +218,7 @@ type Node struct {
 	marker  selector.Marker
 	options NodeOptions
 
-	probeResult atomic.Value    // *ProbeResult
+	probeResult atomic.Value // *ProbeResult
 	probeCancel context.CancelFunc
 }
 
