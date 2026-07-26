@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-gost/core/auth"
 	"github.com/go-gost/core/bypass"
+	"github.com/go-gost/core/cache"
 	"github.com/go-gost/core/chain"
 	"github.com/go-gost/core/limiter/rate"
 	"github.com/go-gost/core/limiter/traffic"
@@ -38,6 +39,8 @@ type Options struct {
 	Observer observer.Observer
 	// Recorders records traffic data.
 	Recorders []recorder.RecorderObject
+	// Cache is the response cache (e.g. HTTP response caching).
+	Cache cache.Cache
 	// Rewriter rewrites traffic data.
 	Rewriter rewriter.Rewriter
 	// Service is the service name this handler belongs to.
@@ -116,6 +119,13 @@ func ObserverOption(observer observer.Observer) Option {
 func RecordersOption(recorders ...recorder.RecorderObject) Option {
 	return func(o *Options) {
 		o.Recorders = recorders
+	}
+}
+
+// CacheOption sets the response cache.
+func CacheOption(c cache.Cache) Option {
+	return func(o *Options) {
+		o.Cache = c
 	}
 }
 
