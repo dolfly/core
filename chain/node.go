@@ -68,10 +68,41 @@ type HTTPBodyRewriteSettings struct {
 	MaxChunkSize int
 }
 
+// HTTPHeaderRewriteSettings defines an HTTP header rewrite rule.
+type HTTPHeaderRewriteSettings struct {
+	// Name is the regex matched against the *lowercased* header name, so a
+	// pattern with uppercase letters needs an explicit (?i) flag.
+	// In plugin mode it gates whether the plugin is invoked.
+	// Note: *regexp.Regexp (not string like HTTPBodyRewriteSettings.Type)
+	// is intentional — header *names* need regex matching, while body rules
+	// match a MIME prefix. Do not "align" this back to string.
+	Name *regexp.Regexp
+	// Pattern is the regex matched against each header value (regex mode);
+	// in plugin mode it is unused.
+	Pattern *regexp.Regexp
+	// Replacement is the replacement bytes (regex mode).
+	Replacement []byte
+	// Rewriter is an optional plugin-based rewriter. When set, Rewrite
+	// delegates to the plugin over the serialized header block. The plugin
+	// receives a sorted, canonicalized header block (http.Header.Write
+	// normalizes names and sorts keys), not the original wire bytes.
+	Rewriter rewriter.Rewriter
+}
+
 // HTTPNodeSettings holds HTTP-level configuration for a node.
 type HTTPNodeSettings struct {
-	// Host is the HTTP Host header value.
+	// Host is the HTTP Host header value. When HostPattern is set, Host is
+	// treated as a replacement template: submatches captured by HostPattern
+	// against req.URL.Path are expanded into it ($1, $2, ...). This restores
+	// the upstream Host from the encoded path for mirror routing (e.g.
+	// path "/microsoft.github.io/x" + HostPattern "^/([a-z0-9-]+\.github\.io)/"
+	// + Host "$1" → Host "microsoft.github.io").
 	Host string
+	// HostPattern is the regex matched against req.URL.Path to derive the
+	// Host. It only affects the Host header (never the dial target or TLS
+	// SNI), so it is intended for Host-routed origins (GitHub Pages) rather
+	// than SNI-routed origins. When nil, Host is used as a static value.
+	HostPattern *regexp.Regexp
 	// RequestHeader contains custom request headers to inject.
 	RequestHeader map[string]string
 	// ResponseHeader contains custom response headers to inject.
@@ -84,6 +115,12 @@ type HTTPNodeSettings struct {
 	RewriteRequestBody []HTTPBodyRewriteSettings
 	// RewriteResponseBody holds the response body rewrite rules.
 	RewriteResponseBody []HTTPBodyRewriteSettings
+	// RewriteRequestHeader holds the request-header rewrite rules. The Host
+	// header is not reachable here (net/http keeps it in Request.Host, not
+	// Request.Header) — use Host above instead.
+	RewriteRequestHeader []HTTPHeaderRewriteSettings
+	// RewriteResponseHeader holds the response-header rewrite rules.
+	RewriteResponseHeader []HTTPHeaderRewriteSettings
 	// FailCodes lists response status codes that mark the node as failed.
 	FailCodes FailCodes
 }
